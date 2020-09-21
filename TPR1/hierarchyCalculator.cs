@@ -43,13 +43,15 @@ namespace TPR1
                 for (int i = 0; i < size; i++)
                 {
                     priorVect[z][i] = matrixVect[z][i] / wSum;
-                    Y[z][i] = 0;
-                    for (int j = 0; j < size; j++)
-                        Y[z][i] += priorVect[z][i] * arrays[z][i, j];
+                    Y[z][i] = 0;                  
                 }
                 double lambdaSum = 0;
-                for (int i = 0; i < size; i++)              
-                    lambdaSum += Y[z][i] / priorVect[z][i];
+                for (int i = 0; i < size; i++)
+                {
+                    for (int j = 0; j < size; j++)
+                        Y[z][i] += priorVect[z][j] * arrays[z][i, j];                    
+                        lambdaSum += Y[z][i] / priorVect[z][i];
+                }
                 lambdaMax[z] = lambdaSum / size;
                 consistencyIndex[z] = (lambdaMax[z] - size) / (size - 1);
             }
@@ -73,9 +75,9 @@ namespace TPR1
             Console.Write("Y:");
             writeArray(Y[0], size);
             Console.Write("Максимальне власне число матрицi: ");
-            Console.WriteLine(Math.Round(lambdaMax[0],2).ToString(CultureInfo.InvariantCulture));
+            Console.WriteLine(lambdaMax[0].ToString(CultureInfo.InvariantCulture));
             Console.Write("Iндекс узгодженостi: ");
-            Console.WriteLine(Math.Round(consistencyIndex[0],2).ToString(CultureInfo.InvariantCulture));
+            Console.WriteLine(consistencyIndex[0].ToString(CultureInfo.InvariantCulture));
             Console.WriteLine("---------------------------------");
             for (int i = 1; i < size + 1; i++)
             {
@@ -85,9 +87,9 @@ namespace TPR1
                 Console.Write("Вектор прiоритетiв X: ");
                 writeArray(priorVect[i], size);
                 Console.Write("Максимальне власне число матрицi: ");
-                Console.WriteLine(Math.Round(lambdaMax[i],2).ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(lambdaMax[i].ToString(CultureInfo.InvariantCulture));
                 Console.Write("Iндекс узгодженостi: ");
-                Console.WriteLine(Math.Round(consistencyIndex[i],2).ToString(CultureInfo.InvariantCulture));
+                Console.WriteLine(consistencyIndex[i].ToString(CultureInfo.InvariantCulture));
                 Console.WriteLine("---------------------------------");
             }
             Console.Write("Вектор глобальних прiоритетiв: ");
